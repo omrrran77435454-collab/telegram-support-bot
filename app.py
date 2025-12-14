@@ -81,6 +81,10 @@ async def on_shutdown(app: web.Application):
 # App factory
 # ----------------------------
 def create_app() -> web.Application:
+    async def health(request):
+    return web.Response(text="OK")
+
+app.router.add_get("/", health)
     app = web.Application()
     app.router.add_post("/webhook/{secret}", handle_webhook)
     app.on_startup.append(on_startup)
